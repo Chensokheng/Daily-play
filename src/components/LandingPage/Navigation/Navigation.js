@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import SideMenu from './SideMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,33 +28,57 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     marginLeft: theme.spacing(2),
   },
+  optionContainer: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'None',
+    },
+  },
+  menuIcon: {
+    display: 'None',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
 }));
 
 export default function Navigation() {
   const classes = useStyles();
+  const [openDrawer, setOpenDrawer] = useState(false);
   return (
-    <AppBar className={classes.root}>
-      <Toolbar>
-        <Typography variant="body2" className={classes.title}>
-          Daily Play
-        </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          className={clsx({
-            [classes.btnSignIn]: true,
-            [classes.button]: true,
-          })}
-        >
-          Sign In
-        </Button>
-        <Button variant="outline" size="large" className={classes.button}>
-          Sign Up
-        </Button>
-        <Button variant="outline" size="large" className={classes.button}>
-          Guest
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <div>
+      <AppBar className={classes.root}>
+        <Toolbar>
+          <Typography variant="body2" className={classes.title}>
+            Daily Play
+          </Typography>
+          <div className={classes.optionContainer}>
+            <Button
+              variant="contained"
+              size="large"
+              className={clsx({
+                [classes.btnSignIn]: true,
+                [classes.button]: true,
+              })}
+            >
+              Sign In
+            </Button>
+            <Button variant="outlined" size="large" className={classes.button}>
+              Sign Up
+            </Button>
+            <Button variant="outlined" size="large" className={classes.button}>
+              Guest
+            </Button>
+          </div>
+          <MenuIcon
+            onClick={() => setOpenDrawer(!openDrawer)}
+            fontSize="10"
+            className={classes.menuIcon}
+            color="inherit"
+          />
+        </Toolbar>
+      </AppBar>
+
+      <SideMenu openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+    </div>
   );
 }
