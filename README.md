@@ -2,7 +2,8 @@
 
 part 1 : Landing page
 
-- [ ] Navigation bar
+- [x] Navigation bar
+- [ ] responsive navigation
 - [ ] introduction part
 - [ ] our games
 - [ ] about us

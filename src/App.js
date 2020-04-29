@@ -66,12 +66,13 @@
 // export default App;
 
 import React from 'react';
-import Button from './Button';
+import { BrowserRouter as Router } from 'react-router-dom';
+import PublicRoutes from './routes/public.routes';
 
 export default function App() {
   return (
-    <div>
-      <Button primary>Explore</Button>
-    </div>
+    <Router>
+      <PublicRoutes />
+    </Router>
   );
 }
