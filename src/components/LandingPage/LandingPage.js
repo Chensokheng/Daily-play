@@ -1,12 +1,24 @@
 import React from 'react';
 import Navigation from './Navigation/Navigation';
-import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Intro from './Intro';
 
 const useStyle = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
     background: '#000',
+  },
+  introduction: {
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    color: '#fff',
+    fontSize: '4.5rem',
+    fontFamily: 'Quicksand',
+    fontWeight: 700,
   },
 }));
 
@@ -15,6 +27,7 @@ export default function LandingPage() {
   return (
     <div className={classes.root}>
       <Navigation />
+      <Intro />
     </div>
   );
 }
