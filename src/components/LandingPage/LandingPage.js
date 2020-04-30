@@ -3,11 +3,11 @@ import Navigation from './Navigation/Navigation';
 import { makeStyles } from '@material-ui/core/styles';
 import Intro from './Intro';
 import OurGames from './OurGames';
-
+import AboutUs from './AboutUs';
 const useStyle = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
-    background: '#000',
+    background: '#111',
   },
   introduction: {
     height: '100vh',
@@ -30,6 +30,7 @@ export default function LandingPage() {
       <Navigation />
       <Intro />
       <OurGames />
+      <AboutUs />
     </div>
   );
 }

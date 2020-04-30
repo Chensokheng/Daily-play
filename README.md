@@ -6,5 +6,4 @@ part 1 : Landing page
 - [x] responsive navigation
 - [x] introduction part
 - [x] our games
-- [ ] about us
-- [ ] contact us
+- [x] about us
