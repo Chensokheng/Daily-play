@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, Fade } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
-
+import { Link } from 'react-scroll';
 import { makeStyles, fade } from '@material-ui/core/styles';
 
 const useStyle = makeStyles((theme) => ({
@@ -60,7 +60,14 @@ export default function Intro() {
         style={{ transformOrigin: '0 0 0' }}
         {...(true ? { timeout: 2000 } : {})}
       >
-        <Button className={classes.btnExplore}>Explore</Button>
+        <Link
+          style={{ textDecoration: 'None' }}
+          to="our_game"
+          smooth={true}
+          duration={1000}
+        >
+          <Button className={classes.btnExplore}>Explore</Button>
+        </Link>
       </Fade>
     </div>
   );

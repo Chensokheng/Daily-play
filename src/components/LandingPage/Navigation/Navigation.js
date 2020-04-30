@@ -8,7 +8,6 @@ import SideMenu from './SideMenu';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    background: 'None',
   },
   title: {
     fontFamily: 'Bangers',
@@ -46,7 +45,7 @@ export default function Navigation() {
   const [openDrawer, setOpenDrawer] = useState(false);
   return (
     <div>
-      <AppBar className={classes.root}>
+      <AppBar className={classes.root} elevation={0}>
         <Toolbar>
           <Typography variant="body2" className={classes.title}>
             Daily Play
@@ -62,16 +61,15 @@ export default function Navigation() {
             >
               Sign In
             </Button>
-            <Button variant="outlined" size="large" className={classes.button}>
+            <Button variant="outlined" className={classes.button}>
               Sign Up
             </Button>
-            <Button variant="outlined" size="large" className={classes.button}>
+            <Button variant="outlined" className={classes.button}>
               Guest
             </Button>
           </div>
           <MenuIcon
             onClick={() => setOpenDrawer(!openDrawer)}
-            fontSize="10"
             className={classes.menuIcon}
             color="inherit"
           />
