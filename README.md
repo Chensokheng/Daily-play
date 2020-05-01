@@ -9,7 +9,7 @@
 ## prerequisite
 
 ```sh
-    change your firebase config in the firebase folder.
+    change your firebase config in the utils folder.
 ```
 
 ## Todo
