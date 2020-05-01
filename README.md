@@ -1,3 +1,17 @@
+## This project is open-sources anyone can copy this code. but please change the firebase config
+
+### Install
+
+```sh
+    npm install
+```
+
+## prerequisite
+
+```sh
+    change your firebase config in the firebase folder.
+```
+
 ## Todo
 
 part 1 : Landing page
