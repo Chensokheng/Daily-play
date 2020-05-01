@@ -1,11 +1,12 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import LandingPage from '../components/LandingPage';
-export default function PublicRoutes() {
+import { Redirect, Route } from 'react-router-dom';
+export default function PublicRoutes({ auth, component: Component, ...rest }) {
   return (
-    <Switch>
-      <Route path="/" exact component={LandingPage} />
-      <Route path="/landingpage" component={LandingPage} />
-    </Switch>
+    <Route
+      {...rest}
+      render={(props) =>
+        !auth ? <Component {...props} /> : <Redirect to="/home" />
+      }
+    />
   );
 }

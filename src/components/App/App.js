@@ -65,14 +65,49 @@
 
 // export default App;
 
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import PublicRoutes from './routes/public.routes';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Privateroutes from '../../routes/private.routes';
+import PublicRoutes from '../../routes/public.routes';
+import Home from '../Home';
+import LandingPage from '../LandingPage';
+import { auth } from '../../utils/firebase';
+import ThemeApi from '../../utils/ThemeApi';
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  const [authorized, setAuthroize] = useState(false);
+
+  const isAuthorized = () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        setAuthroize(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    isAuthorized();
+  }, []);
   return (
-    <Router>
-      <PublicRoutes />
-    </Router>
+    <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
+      <Router>
+        <Switch>
+          <PublicRoutes
+            path="/"
+            exact
+            component={LandingPage}
+            auth={authorized}
+          />
+          <PublicRoutes
+            path="/landingpage"
+            component={LandingPage}
+            auth={authorized}
+          />
+          <Privateroutes path="/home" component={Home} auth={authorized} />
+        </Switch>
+      </Router>
+    </ThemeApi.Provider>
   );
 }
