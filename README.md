@@ -26,6 +26,12 @@ part 2:
 
 - [x] register with firebase
 - [x] authentication with firebase
+- [x] Loading
+- [ ] React Helmet
+- [ ] change icon of the website
+- [ ] update description of the website
+
+part
+
 - [ ] Home scree after user login
-- [ ] Loading
 - [ ] layout

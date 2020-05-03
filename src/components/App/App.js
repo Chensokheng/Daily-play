@@ -73,16 +73,40 @@ import Home from '../Home';
 import LandingPage from '../LandingPage';
 import { auth } from '../../utils/firebase';
 import ThemeApi from '../../utils/ThemeApi';
+import Loading from '../LoadingScreen/Loading';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
+const useStyle = makeStyles((theme) => ({
+  loadingContainer: {
+    height: '100vh',
+    background: '#000',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  title: {
+    color: '#fff',
+    fontFamily: 'Bangers',
+    letterSpacing: theme.spacing(0.5),
+    fontSize: '2rem',
+  },
+}));
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [authorized, setAuthroize] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  const classes = useStyle();
   const isAuthorized = () => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
         setAuthroize(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
     });
   };
@@ -91,23 +115,32 @@ export default function App() {
     isAuthorized();
   }, []);
   return (
-    <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
-      <Router>
-        <Switch>
-          <PublicRoutes
-            path="/"
-            exact
-            component={LandingPage}
-            auth={authorized}
-          />
-          <PublicRoutes
-            path="/landingpage"
-            component={LandingPage}
-            auth={authorized}
-          />
-          <Privateroutes path="/home" component={Home} auth={authorized} />
-        </Switch>
-      </Router>
-    </ThemeApi.Provider>
+    <>
+      {loading ? (
+        <div className={classes.loadingContainer}>
+          <Loading type="bars" color="#1CA1F2" height="100px" width="100px" />
+          <Typography className={classes.title}>From Daily Play</Typography>
+        </div>
+      ) : (
+        <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
+          <Router>
+            <Switch>
+              <PublicRoutes
+                path="/"
+                exact
+                component={LandingPage}
+                auth={authorized}
+              />
+              <PublicRoutes
+                path="/landingpage"
+                component={LandingPage}
+                auth={authorized}
+              />
+              <Privateroutes path="/home" component={Home} auth={authorized} />
+            </Switch>
+          </Router>
+        </ThemeApi.Provider>
+      )}
+    </>
   );
 }
