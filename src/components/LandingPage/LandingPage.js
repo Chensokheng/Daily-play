@@ -2,7 +2,7 @@ import React from 'react';
 import Navigation from '../Navigation/Navigation';
 import { makeStyles } from '@material-ui/core/styles';
 import Intro from './Intro';
-import OurGames from './OurGames';
+import OurGames from '../OurGames';
 import AboutUs from './AboutUs';
 const useStyle = makeStyles((theme) => ({
   root: {

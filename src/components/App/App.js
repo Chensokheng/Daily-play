@@ -67,15 +67,16 @@
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Loading from '../LoadingScreen/Loading';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import Privateroutes from '../../routes/private.routes';
 import PublicRoutes from '../../routes/public.routes';
 import Home from '../Home';
 import LandingPage from '../LandingPage';
 import { auth } from '../../utils/firebase';
 import ThemeApi from '../../utils/ThemeApi';
-import Loading from '../LoadingScreen/Loading';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import Auth from '../Auth';
 
 const useStyle = makeStyles((theme) => ({
   loadingContainer: {
@@ -129,6 +130,12 @@ export default function App() {
                 path="/"
                 exact
                 component={LandingPage}
+                auth={authorized}
+              />
+              <PublicRoutes
+                path="/auth"
+                exact
+                component={Auth}
                 auth={authorized}
               />
               <PublicRoutes

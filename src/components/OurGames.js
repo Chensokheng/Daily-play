@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Typography, Button } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import ThemeApi from '../utils/ThemeApi';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
   },
-  btnExplore: {
+  btnPlay: {
     fontFamily: 'Quicksand',
     marginBottom: theme.spacing(4),
     textAlign: 'center',
@@ -73,6 +75,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OurGames() {
   const classes = useStyles();
+  const history = useHistory();
+  const { authorized } = useContext(ThemeApi);
+  const handlePlay = (game) => {
+    console.log(authorized);
+    if (authorized) {
+      history.push(`/${game}`);
+    } else {
+      history.push('/auth');
+    }
+  };
   return (
     <div className={classes.root} id="our_game">
       <Typography className={classes.title}>Our Games</Typography>
@@ -88,7 +100,7 @@ export default function OurGames() {
               backgroundSize: 'cover',
             }}
           ></div>
-          <Button className={classes.btnExplore}>Play</Button>
+          <Button className={classes.button}>Coming Soon</Button>
         </div>
         <div>
           <Typography className={classes.gameTitle}>Tic Tac Toe</Typography>
@@ -101,7 +113,12 @@ export default function OurGames() {
               backgroundSize: 'cover',
             }}
           ></div>
-          <Button className={classes.button}>Coming Soon</Button>
+          <Button
+            className={classes.btnPlay}
+            onClick={() => handlePlay('tictactoe')}
+          >
+            Play
+          </Button>
         </div>
         <div>
           <Typography className={classes.gameTitle}>Coming Soon</Typography>
