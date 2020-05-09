@@ -80,7 +80,7 @@ export default function OurGames() {
   const handlePlay = (game) => {
     console.log(authorized);
     if (authorized) {
-      history.push(`/${game}`);
+      history.push(`/${game}/find`);
     } else {
       history.push('/auth');
     }

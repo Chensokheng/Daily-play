@@ -1,0 +1,6 @@
++queues
+    - id:
+        => is
+
+user1 => if (len(queues) <= 0): create q for u1 (id, isFull: false)
+user2 => if (len(queues) > 0): (id: queues) if (id.isFull == false): remove(id)

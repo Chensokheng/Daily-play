@@ -6,11 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // background: '#011',
+    background: '#011',
     minHeight: '100vh',
   },
   container: {
-    marginTop: '100px',
+    paddingTop: '90px',
   },
 }));
 
