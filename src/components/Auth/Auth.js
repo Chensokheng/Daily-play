@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { Button, Paper, Modal } from '@material-ui/core';
+import { Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import firebase from '../../utils/firebase';
 import ThemeApi from '../../utils/ThemeApi';
 
@@ -35,10 +36,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Auth() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [signInOpen, setSignInOpen] = React.useState(false);
+  const [signUpOpen, setSignUpOpen] = React.useState(false);
   const { setAuthroize, setUser } = useContext(ThemeApi);
-  const handleOpen = () => {
-    setOpen(true);
+  const handleSignInOpen = () => {
+    setSignInOpen(true);
+  };
+  const handleSignUpOpen = () => {
+    setSignUpOpen(true);
   };
   const handleGuestMode = () => {
     firebase
@@ -54,15 +59,18 @@ export default function Auth() {
   return (
     <div className={classes.root}>
       <Paper className={classes.btnContainer}>
-        <Button className={classes.btn} onClick={handleOpen}>
+        <Button className={classes.btn} onClick={handleSignInOpen}>
           Sign In
         </Button>
-        <Button className={classes.btn}>Sign Up</Button>
+        <Button className={classes.btn} onClick={handleSignUpOpen}>
+          Sign Up
+        </Button>
         <Button className={classes.btn} onClick={handleGuestMode}>
           Guest Mode
         </Button>
       </Paper>
-      <SignIn open={open} setOpen={setOpen} />
+      <SignIn open={signInOpen} setOpen={setSignInOpen} />
+      <SignUp open={signUpOpen} setOpen={setSignUpOpen} />
     </div>
   );
 }

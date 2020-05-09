@@ -72,11 +72,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import Privateroutes from '../../routes/private.routes';
 import PublicRoutes from '../../routes/public.routes';
+import GameRoutes from '../../routes/game.routes';
 import Home from '../Home';
 import LandingPage from '../LandingPage';
 import { auth } from '../../utils/firebase';
 import ThemeApi from '../../utils/ThemeApi';
 import Auth from '../Auth';
+import TicTacToe from '../Games/TicTacToe/tictactoe';
 
 const useStyle = makeStyles((theme) => ({
   loadingContainer: {
@@ -127,24 +129,11 @@ export default function App() {
         <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
           <Router>
             <Switch>
-              <PublicRoutes
-                path="/"
-                exact
-                component={LandingPage}
-                auth={authorized}
-              />
-              <PublicRoutes
-                path="/auth"
-                exact
-                component={Auth}
-                auth={authorized}
-              />
-              <PublicRoutes
-                path="/landingpage"
-                component={LandingPage}
-                auth={authorized}
-              />
+              <PublicRoutes path="/" exact component={LandingPage} auth={authorized} />
+              <PublicRoutes path="/auth" exact component={Auth} auth={authorized} />
+              <PublicRoutes path="/landingpage" component={LandingPage} auth={authorized} />
               <Privateroutes path="/home" component={Home} auth={authorized} />
+              <GameRoutes path="/tictactoe" component={TicTacToe} auth={authorized} />
             </Switch>
           </Router>
         </ThemeApi.Provider>

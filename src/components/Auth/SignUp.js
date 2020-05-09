@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ open, setOpen }) {
+export default function SignUp({ open, setOpen }) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -65,7 +65,7 @@ export default function SignIn({ open, setOpen }) {
   const handleSubmit = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         if (result.user) {
           setAuthroize(true);
@@ -73,7 +73,7 @@ export default function SignIn({ open, setOpen }) {
         }
       })
       .catch((e) => {
-        setErrorMsg('Unable To Login');
+        setErrorMsg(e.message);
       });
   };
   return (
@@ -92,12 +92,12 @@ export default function SignIn({ open, setOpen }) {
       >
         <Grow in={open} style={{ transformOrigin: '0 0 0' }} {...(open ? { timeout: 1000 } : {})}>
           <div className={classes.paper}>
-            <Typography className={classes.title}>SIGN IN</Typography>
+            <Typography className={classes.title}>SIGN UP</Typography>
             <Typography className={classes.errorMsg}>{errorMsg}</Typography>
             <TextField className={classes.input} value={email} label="Email Address" helperText="" variant="outlined" name="email" onChange={handleOnChange} />
             <TextField className={classes.input} value={password} label="Password" helperText="" variant="outlined" type="password" name="password" onChange={handleOnChange} />
             <Button className={classes.btn} onClick={handleSubmit}>
-              SIGN IN
+              SIGN UP
             </Button>
           </div>
         </Grow>
