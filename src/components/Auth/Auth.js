@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Paper } from '@material-ui/core';
+import { Button, Paper, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import SignIn from './SignIn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,23 +12,42 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   btnContainer: {
-    background: 'blue',
+    background: '#252526',
+    width: '500px',
+    height: '300px',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   btn: {
+    minWidth: '80%',
     display: 'block',
     color: '#fff',
-    margin: theme.spacing(10),
+    padding: theme.spacing(2),
+    background: '#171819',
   },
 }));
 export default function Auth() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.btnContainer}>
-        <Button className={classes.btn}>Sign In</Button>
+        <Button className={classes.btn} onClick={handleOpen}>
+          Sign In
+        </Button>
         <Button className={classes.btn}>Sign Up</Button>
-        <Button className={classes.btn}>Guest</Button>
+        <Button className={classes.btn}>Guest Mode</Button>
       </Paper>
+      <SignIn open={open} setOpen={setOpen} />
     </div>
   );
 }
