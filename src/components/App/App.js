@@ -115,6 +115,7 @@ export default function App() {
   useEffect(() => {
     isAuthorized();
   }, []);
+
   return (
     <>
       {loading ? (
