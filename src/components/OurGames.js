@@ -3,7 +3,7 @@ import { Typography, Button } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import ThemeApi from '../utils/ThemeApi';
-
+import { findOpponent } from '../utils/database';
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
@@ -76,10 +76,12 @@ const useStyles = makeStyles((theme) => ({
 export default function OurGames() {
   const classes = useStyles();
   const history = useHistory();
-  const { authorized } = useContext(ThemeApi);
-  const handlePlay = (game) => {
+  const { authorized, user } = useContext(ThemeApi);
+  const handlePlay = async (game) => {
     console.log(authorized);
     if (authorized) {
+      console.log('i am running');
+      await findOpponent(user.uid, history);
       history.push(`/${game}/find`);
     } else {
       history.push('/auth');

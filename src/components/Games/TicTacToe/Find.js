@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, fade, Grow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../../LoadingScreen/Loading';
+import ThemeApi from '../../../utils/ThemeApi';
+import firebase from '../../../utils/firebase';
 
 const useStyles = makeStyles((theme) => ({
   btnFind: {
@@ -48,12 +50,33 @@ const useStyles = makeStyles((theme) => ({
 export default function Find() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const { user } = useContext(ThemeApi);
   const handleCancel = () => {
     setOpen(!open);
   };
   const handleFind = () => {
     setOpen(!open);
   };
+
+  // Listen for database change
+  const listenQueue = () => {
+    const QueueRef = firebase.database().ref(`Queues`);
+    QueueRef.on('value', (snapshot) => {
+      const queues = snapshot.val();
+      for (let id in queues) {
+        if (queues[id].isFull) {
+          console.log(
+            `MATCH FOUND:\nHOST:${queues[id].host}, CLIENT:${queues[id].client}`
+          );
+          QueueRef.child(id).remove();
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    listenQueue();
+  }, []);
+
   return (
     <div className={classes.container}>
       <Grow in={!open}>
