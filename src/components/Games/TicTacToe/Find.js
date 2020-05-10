@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Find() {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const { user } = useContext(ThemeApi);
   const history = useHistory();
   const handleCancel = () => {

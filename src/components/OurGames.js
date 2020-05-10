@@ -80,8 +80,7 @@ export default function OurGames() {
   const handlePlay = async (game) => {
     console.log(authorized);
     if (authorized) {
-      console.log('i am running');
-      await findOpponent(user.uid, history);
+      // await findOpponent(user.uid, history);
       history.push(`/${game}/find`);
     } else {
       history.push('/auth');
@@ -96,9 +95,7 @@ export default function OurGames() {
           <div
             className={classes.games}
             style={{
-              backgroundImage: `url(${
-                process.env.PUBLIC_URL + '/images/memory.jpg'
-              })`,
+              backgroundImage: `url(${process.env.PUBLIC_URL + '/images/memory.jpg'})`,
               backgroundSize: 'cover',
             }}
           ></div>
@@ -109,16 +106,11 @@ export default function OurGames() {
           <div
             className={classes.games}
             style={{
-              backgroundImage: `url(${
-                process.env.PUBLIC_URL + '/images/tictactoe.png'
-              })`,
+              backgroundImage: `url(${process.env.PUBLIC_URL + '/images/tictactoe.png'})`,
               backgroundSize: 'cover',
             }}
           ></div>
-          <Button
-            className={classes.btnPlay}
-            onClick={() => handlePlay('tictactoe')}
-          >
+          <Button className={classes.btnPlay} onClick={() => handlePlay('tictactoe')}>
             Play
           </Button>
         </div>

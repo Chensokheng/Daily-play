@@ -34,16 +34,13 @@ const listenQueue = (userID, history) => {
   QueueRef.on('value', (snapshot) => {
     const queues = snapshot.val();
     for (let id in queues) {
-      if (queues[id].isFull) {
-        console.log(
-          `MATCH FOUND:\nHOST:${queues[id].host}, CLIENT:${queues[id].client}`
-        );
+      if (queues[id].isFull && [queues[id].host, queues[id].client].includes(userID)) {
+        console.log(`MATCH FOUND:\nHOST:${queues[id].host}, CLIENT:${queues[id].client}`);
 
         // create board
         const MatchRef = firebase.database().ref('Matches');
         const myBoard = MatchRef.child(userID);
-        const opponent =
-          userID === queues[id].host ? userID : queues[id].client;
+        const opponent = userID === queues[id].host ? userID : queues[id].client;
 
         myBoard.set({
           board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
