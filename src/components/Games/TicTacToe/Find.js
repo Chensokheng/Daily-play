@@ -3,7 +3,8 @@ import { Button, fade, Grow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Loading from '../../LoadingScreen/Loading';
 import ThemeApi from '../../../utils/ThemeApi';
-import firebase from '../../../utils/firebase';
+import { listenQueue, findOpponent, cancelFind } from '../../../utils/database';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   btnFind: {
@@ -51,30 +52,18 @@ export default function Find() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const { user } = useContext(ThemeApi);
+  const history = useHistory();
   const handleCancel = () => {
     setOpen(!open);
+    cancelFind(user.uid);
   };
   const handleFind = () => {
     setOpen(!open);
+    findOpponent(user.uid);
   };
 
-  // Listen for database change
-  const listenQueue = () => {
-    const QueueRef = firebase.database().ref(`Queues`);
-    QueueRef.on('value', (snapshot) => {
-      const queues = snapshot.val();
-      for (let id in queues) {
-        if (queues[id].isFull) {
-          console.log(
-            `MATCH FOUND:\nHOST:${queues[id].host}, CLIENT:${queues[id].client}`
-          );
-          QueueRef.child(id).remove();
-        }
-      }
-    });
-  };
   useEffect(() => {
-    listenQueue();
+    listenQueue(user.uid, history);
   }, []);
 
   return (

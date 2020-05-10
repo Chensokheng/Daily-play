@@ -4,3 +4,18 @@
 
 user1 => if (len(queues) <= 0): create q for u1 (id, isFull: false)
 user2 => if (len(queues) > 0): (id: queues) if (id.isFull == false): remove(id)
+
++matches:
+    hostID:
+        board:[0,1,2,3,4,5,6,7,8],
+        playerTurn:[hostID]
+        opponent:[client]
+
+    clientId:
+        board:[0,1,2,3,4,5,6,7,8],
+        playerTurn:[hostID]
+        opponent:[hostID]
+
+
+
+Game =[0,1,2,3,4,5,7,8] // share with both players
