@@ -20,8 +20,8 @@ export default function Layout({ children }) {
     <div className={classes.root}>
       <Navigation />
       <div>
-        <Grid className={classes.container} container spacing={2}>
-          <Grid item xs={12} md={8} lg={8}>
+        <Grid className={classes.container} container>
+          <Grid item xs={12} sm={6} md={8} lg={8}>
             {children}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={4}>

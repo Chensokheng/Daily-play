@@ -40,11 +40,13 @@ const listenQueue = (userID, history) => {
         // create board
         const MatchRef = firebase.database().ref('Matches');
         const myBoard = MatchRef.child(userID);
-        const opponent = userID === queues[id].host ? userID : queues[id].client;
+
+        const opponent = [queues[id].host, queues[id].client].filter((id) => id !== userID)[0];
 
         myBoard.set({
-          board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+          board: [1, 2, 3, 4, 5, 6, 7, 8, 9],
           playerTurn: queues[id].host,
+          move: userID === queues[id].host ? 'x' : 'o',
           opponent,
         });
         QueueRef.child(id).remove();

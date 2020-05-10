@@ -78,7 +78,8 @@ import LandingPage from '../LandingPage';
 import { auth } from '../../utils/firebase';
 import ThemeApi from '../../utils/ThemeApi';
 import Auth from '../Auth';
-import TicTacToe from '../Games/TicTacToe/Find';
+import Find from '../Games/TicTacToe/Find';
+import Play from '../Games/TicTacToe/Play';
 
 const useStyle = makeStyles((theme) => ({
   loadingContainer: {
@@ -129,29 +130,12 @@ export default function App() {
         <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
           <Router>
             <Switch>
-              <PublicRoutes
-                path="/"
-                exact
-                component={LandingPage}
-                auth={authorized}
-              />
-              <PublicRoutes
-                path="/auth"
-                exact
-                component={Auth}
-                auth={authorized}
-              />
-              <PublicRoutes
-                path="/landingpage"
-                component={LandingPage}
-                auth={authorized}
-              />
+              <PublicRoutes path="/" exact component={LandingPage} auth={authorized} />
+              <PublicRoutes path="/auth" exact component={Auth} auth={authorized} />
+              <PublicRoutes path="/landingpage" component={LandingPage} auth={authorized} />
               <Privateroutes path="/home" component={Home} auth={authorized} />
-              <GameRoutes
-                path="/tictactoe/find"
-                component={TicTacToe}
-                auth={authorized}
-              />
+              <GameRoutes path="/tictactoe/find" component={Find} auth={authorized} />
+              <GameRoutes path="/tictactoe/play" component={Play} auth={authorized} />
             </Switch>
           </Router>
         </ThemeApi.Provider>
