@@ -54,20 +54,45 @@ export default function SignUp({ open, setOpen }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
+  const [username, setUsername] = useState('');
   const { setAuthroize, setUser } = useContext(ThemeApi);
   const handleOnChange = (e) => {
     if (e.target.name === 'password') {
       setPassword(e.target.value);
-    } else {
+    } else if (e.target.name === 'email') {
       setEmail(e.target.value);
+    } else {
+      setUsername(e.target.value);
     }
   };
+
+  const createUserScore = () => {
+    const scoreRef = firebase.database().ref('Score');
+    scoreRef.once('value', (snapshot) => {
+      const players = snapshot.val();
+
+      if (players && players[username]) {
+        setErrorMsg('Username is already exist!!.');
+        return false;
+      } else {
+        scoreRef.child(username).set({
+          score: 0,
+        });
+        return true;
+      }
+    });
+  };
   const handleSubmit = () => {
+    const canCreate = createUserScore();
+    if (!canCreate) {
+      return;
+    }
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         if (result.user) {
+          result.user.updateProfile({ displayName: username });
           setAuthroize(true);
           setUser(result.user);
         }
@@ -90,12 +115,43 @@ export default function SignUp({ open, setOpen }) {
           timeout: 500,
         }}
       >
-        <Grow in={open} style={{ transformOrigin: '0 0 0' }} {...(open ? { timeout: 1000 } : {})}>
+        <Grow
+          in={open}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(open ? { timeout: 1000 } : {})}
+        >
           <div className={classes.paper}>
             <Typography className={classes.title}>SIGN UP</Typography>
             <Typography className={classes.errorMsg}>{errorMsg}</Typography>
-            <TextField className={classes.input} value={email} label="Email Address" helperText="" variant="outlined" name="email" onChange={handleOnChange} />
-            <TextField className={classes.input} value={password} label="Password" helperText="" variant="outlined" type="password" name="password" onChange={handleOnChange} />
+            <TextField
+              className={classes.input}
+              value={username}
+              label="Username"
+              helperText="You can not change the username"
+              variant="outlined"
+              name="username"
+              onChange={handleOnChange}
+            />
+
+            <TextField
+              className={classes.input}
+              value={email}
+              label="Email Address"
+              helperText=""
+              variant="outlined"
+              name="email"
+              onChange={handleOnChange}
+            />
+            <TextField
+              className={classes.input}
+              value={password}
+              label="Password"
+              helperText=""
+              variant="outlined"
+              type="password"
+              name="password"
+              onChange={handleOnChange}
+            />
             <Button className={classes.btn} onClick={handleSubmit}>
               SIGN UP
             </Button>

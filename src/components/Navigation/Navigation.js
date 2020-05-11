@@ -60,10 +60,18 @@ export default function Navigation() {
                 >
                   Sign In
                 </Button>
-                <Button variant="outlined" className={classes.button} onClick={handleSignUpOpen}>
+                <Button
+                  variant="outlined"
+                  className={classes.button}
+                  onClick={handleSignUpOpen}
+                >
                   Sign Up
                 </Button>
-                <Button variant="outlined" className={classes.button} onClick={handleGuestMode}>
+                <Button
+                  variant="outlined"
+                  className={classes.button}
+                  onClick={handleGuestMode}
+                >
                   Guest Mode
                 </Button>
               </div>
@@ -81,10 +89,22 @@ export default function Navigation() {
               </Button>
             )}
           </div>
-          <MenuIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.menuIcon} color="inherit" />
+          <MenuIcon
+            onClick={() => setOpenDrawer(!openDrawer)}
+            className={classes.menuIcon}
+            color="inherit"
+          />
         </Toolbar>
       </AppBar>
-      <SideMenu openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} authorized={authorized} handleLogout={handleLogout} />
+      <SideMenu
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+        authorized={authorized}
+        handleLogout={handleLogout}
+        setSignInOpen={setSignInOpen}
+        setSignUpOpen={setSignUpOpen}
+        handleGuestMode={handleGuestMode}
+      />
 
       <SignIn open={signInOpen} setOpen={setSignInOpen} />
       <SignUp open={signUpOpen} setOpen={setSignUpOpen} />

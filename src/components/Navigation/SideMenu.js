@@ -35,6 +35,9 @@ export default function SideMenu({
   setOpenDrawer,
   authorized,
   handleLogout,
+  setSignUpOpen,
+  setSignInOpen,
+  handleGuestMode,
 }) {
   const classes = useStyles();
   return (
@@ -52,13 +55,24 @@ export default function SideMenu({
                 [classes.btnSignIn]: true,
                 [classes.button]: true,
               })}
+              onClick={() => setSignInOpen(true)}
             >
               Sign In
             </Button>
-            <Button variant="outlined" size="large" className={classes.button}>
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.button}
+              onClick={() => setSignUpOpen(true)}
+            >
               Sign Up
             </Button>
-            <Button variant="outlined" size="large" className={classes.button}>
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.button}
+              onClick={handleGuestMode}
+            >
               Guest
             </Button>
           </>
