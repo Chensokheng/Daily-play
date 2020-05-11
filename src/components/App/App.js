@@ -130,12 +130,34 @@ export default function App() {
         <ThemeApi.Provider value={{ setUser, setAuthroize, authorized, user }}>
           <Router>
             <Switch>
-              <PublicRoutes path="/" exact component={LandingPage} auth={authorized} />
-              <PublicRoutes path="/auth" exact component={Auth} auth={authorized} />
-              <PublicRoutes path="/landingpage" component={LandingPage} auth={authorized} />
+              <PublicRoutes
+                path="/"
+                exact
+                component={LandingPage}
+                auth={authorized}
+              />
+              <PublicRoutes
+                path="/auth"
+                exact
+                component={Auth}
+                auth={authorized}
+              />
+              <PublicRoutes
+                path="/landingpage"
+                component={LandingPage}
+                auth={authorized}
+              />
               <Privateroutes path="/home" component={Home} auth={authorized} />
-              <GameRoutes path="/tictactoe/find" component={Find} auth={authorized} />
-              <GameRoutes path="/tictactoe/play" component={Play} auth={authorized} />
+              <GameRoutes
+                path="/tictactoe/find"
+                component={Find}
+                auth={authorized}
+              />
+              <GameRoutes
+                path="/tictactoe/play"
+                component={Play}
+                auth={authorized}
+              />
             </Switch>
           </Router>
         </ThemeApi.Provider>

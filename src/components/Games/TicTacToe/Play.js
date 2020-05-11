@@ -8,6 +8,7 @@ import firebase from '../../../utils/firebase';
 import ThemeApi from '../../../utils/ThemeApi';
 import Loading from '../../LoadingScreen/Loading';
 import Result from './Result';
+import { Grow } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     color: '#fff',
     fontFamily: 'Quicksand',
+    fontSize: '2rem',
   },
   symbol: {
     fontSize: '5rem',
@@ -63,7 +65,6 @@ export default function Play() {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState('');
-  const [open, setOpen] = useState(false);
   const history = useHistory();
 
   const handleMove = (index) => {
@@ -73,7 +74,10 @@ export default function Play() {
     setMatch(newMatch);
     const matchRef = firebase.database().ref(`Matches/${user.uid}`);
     const opponentRef = firebase.database().ref(`Matches/${match.opponent}`);
-    opponentRef.update({ board: newMatch.board, playerTurn: newMatch.playerTurn });
+    opponentRef.update({
+      board: newMatch.board,
+      playerTurn: newMatch.playerTurn,
+    });
     matchRef.update(newMatch);
   };
   const whoWin = (board, move) => {
@@ -93,12 +97,30 @@ export default function Play() {
       [2, 4, 6],
     ];
     for (let elem of check) {
-      if (board[elem[0]] === board[elem[1]] && board[elem[1]] === board[elem[2]]) {
+      if (
+        board[elem[0]] === board[elem[1]] &&
+        board[elem[1]] === board[elem[2]]
+      ) {
         const messgae = move === board[elem[0]] ? '🎉 You Win' : '😣 You Lose';
+        if (board[elem[0]] === move) {
+          if (user.displayName) {
+            const scoreRef = firebase.database().ref('Score');
+            scoreRef.push({
+              name: user.displayName,
+            });
+          }
+        } else {
+        }
         setMessage(messgae);
-        setOpen(true);
         setDisabled(true);
+        return;
       }
+    }
+
+    const isDraw = board.filter((value) => value !== 'x' && value !== 'o');
+    if (isDraw.length === 0) {
+      setMessage('You are draw');
+      setDisabled(true);
     }
   };
   const getBoard = () => {
@@ -111,7 +133,7 @@ export default function Play() {
         } else {
           setMatch(match);
           setLoading(false);
-          whoWin(match.board, match.move, match.opponent);
+          whoWin(match.board, match.move);
         }
       });
     }
@@ -129,16 +151,43 @@ export default function Play() {
         </div>
       ) : (
         <div className={classes.root}>
-          <h1 className={classes.playerTurn}>{match.playerTurn === user.uid ? 'Your Turn' : 'Opponent Turn'}</h1>
+          <Grow in={match.playerTurn === user.uid}>
+            <Typography className={classes.playerTurn}>Your Turn</Typography>
+          </Grow>
+          <Grow in={match.playerTurn !== user.uid}>
+            <Typography className={classes.playerTurn}>
+              Opponent Turn
+            </Typography>
+          </Grow>
+
           <div className={classes.cardContainer}>
             {match.board.map((value, index) => (
-              <button key={index} className={classes.card} onClick={() => handleMove(index)} disabled={match.playerTurn !== user.uid || value === 'x' || value === 'o' || disabled}>
+              <button
+                key={index}
+                className={classes.card}
+                onClick={() => handleMove(index)}
+                disabled={
+                  match.playerTurn !== user.uid ||
+                  value === 'x' ||
+                  value === 'o' ||
+                  disabled
+                }
+              >
                 {value === 'x' ? <Clear className={classes.symbol} /> : ''}
-                {value === 'o' ? <NotInterestedIcon className={classes.symbol} /> : ''}
+                {value === 'o' ? (
+                  <NotInterestedIcon className={classes.symbol} />
+                ) : (
+                  ''
+                )}
               </button>
             ))}
           </div>
-          <Result open={open} message={message} opponent={match.opponent} myID={user.uid} />
+          <Result
+            open={disabled}
+            message={message}
+            opponent={match.opponent}
+            myID={user.uid}
+          />
         </div>
       )}
     </div>

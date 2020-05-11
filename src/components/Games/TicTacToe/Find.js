@@ -64,6 +64,7 @@ export default function Find() {
 
   useEffect(() => {
     listenQueue(user.uid, history);
+    console.log(user);
   }, []);
 
   return (
