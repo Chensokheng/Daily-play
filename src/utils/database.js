@@ -56,8 +56,18 @@ const listenQueue = (userID, history) => {
           move: userID === queues[id].host ? 'x' : 'o',
           opponent,
         });
+
+        // remove queue
         QueueRef.child(id).remove();
-        // push to game route
+
+        // update user score
+        const username = firebase.auth().currentUser.displayName;
+        const scoreRef = firebase.database().ref(`Score/${username}`);
+        scoreRef.update({
+          updated: false,
+        });
+
+        // enter the game
         history.push('/tictactoe/play');
       }
     }

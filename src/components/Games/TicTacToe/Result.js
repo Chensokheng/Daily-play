@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -31,10 +32,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Result({ open, message, opponent, myID }) {
   const classes = useStyles();
   const history = useHistory();
+
   const handleBackHome = () => {
-    const ref = firebase.database().ref('Matches');
-    ref.child(myID).remove();
-    ref.child(opponent).remove();
+    const matchRef = firebase.database().ref('Matches');
+    matchRef.child(myID).remove();
+    matchRef.child(opponent).remove();
     history.push('/home');
   };
 
@@ -54,7 +56,12 @@ export default function Result({ open, message, opponent, myID }) {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">{message}</h2>
-            <Button className={classes.btn} onClick={handleBackHome}>
+            <Button
+              className={classes.btn}
+              onClick={handleBackHome}
+              to="/home"
+              component={Link}
+            >
               Return Home
             </Button>
           </div>

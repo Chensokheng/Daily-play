@@ -66,40 +66,37 @@ export default function SignUp({ open, setOpen }) {
     }
   };
 
-  const createUserScore = () => {
-    const scoreRef = firebase.database().ref('Score');
-    scoreRef.once('value', (snapshot) => {
-      const players = snapshot.val();
-
-      if (players && players[username]) {
-        setErrorMsg('Username is already exist!!.');
-        return false;
-      } else {
-        scoreRef.child(username).set({
-          score: 0,
-        });
-        return true;
-      }
-    });
-  };
-  const handleSubmit = () => {
-    const canCreate = createUserScore();
-    if (!canCreate) {
+  const handleSubmit = async () => {
+    if (username.trim().length === 0) {
+      setErrorMsg('Please enter username');
       return;
     }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        if (result.user) {
-          result.user.updateProfile({ displayName: username });
-          setAuthroize(true);
-          setUser(result.user);
-        }
-      })
-      .catch((e) => {
-        setErrorMsg(e.message);
-      });
+    const scoreRef = firebase.database().ref('Score').child(username);
+    scoreRef.once('value', (snapshot) => {
+      if (!snapshot.val()) {
+        scoreRef.set({
+          score: 0,
+          updated: false,
+        });
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((result) => {
+            if (result.user) {
+              result.user.updateProfile({ displayName: username });
+              setAuthroize(true);
+              setUser(result.user);
+            }
+          })
+          .catch((e) => {
+            setErrorMsg(e.message);
+            scoreRef.remove();
+          });
+      } else {
+        setErrorMsg('Username is already exist!!');
+        return false;
+      }
+    });
   };
   return (
     <div>
@@ -124,6 +121,7 @@ export default function SignUp({ open, setOpen }) {
             <Typography className={classes.title}>SIGN UP</Typography>
             <Typography className={classes.errorMsg}>{errorMsg}</Typography>
             <TextField
+              required
               className={classes.input}
               value={username}
               label="Username"

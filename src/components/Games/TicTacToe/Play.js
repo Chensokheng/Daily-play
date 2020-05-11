@@ -96,20 +96,42 @@ export default function Play() {
       [0, 4, 8],
       [2, 4, 6],
     ];
+
     for (let elem of check) {
       if (
         board[elem[0]] === board[elem[1]] &&
         board[elem[1]] === board[elem[2]]
       ) {
         const messgae = move === board[elem[0]] ? '🎉 You Win' : '😣 You Lose';
+        let scoreRef;
+        if (user.displayName) {
+          scoreRef = firebase.database().ref('Score').child(user.displayName);
+        }
+
         if (board[elem[0]] === move) {
-          if (user.displayName) {
-            const scoreRef = firebase.database().ref('Score');
-            scoreRef.push({
-              name: user.displayName,
+          if (scoreRef) {
+            scoreRef.once('value', (snapshot) => {
+              const scoreObj = snapshot.val();
+              if (!scoreObj.updated) {
+                scoreRef.update({
+                  score: scoreObj.score + 10,
+                  updated: true,
+                });
+              }
             });
           }
         } else {
+          if (scoreRef) {
+            scoreRef.once('value', (snapshot) => {
+              let scoreObj = snapshot.val();
+              if (!scoreObj.updated) {
+                scoreRef.update({
+                  score: scoreObj.score - 10 > 0 ? scoreObj.score - 10 : 0,
+                  updated: true,
+                });
+              }
+            });
+          }
         }
         setMessage(messgae);
         setDisabled(true);
@@ -119,7 +141,7 @@ export default function Play() {
 
     const isDraw = board.filter((value) => value !== 'x' && value !== 'o');
     if (isDraw.length === 0) {
-      setMessage('You are draw');
+      setMessage("It's a Draw!");
       setDisabled(true);
     }
   };
@@ -141,6 +163,9 @@ export default function Play() {
 
   useEffect(() => {
     getBoard();
+    return () => {
+      return;
+    };
   }, []);
   return (
     <div>

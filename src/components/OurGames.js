@@ -3,7 +3,6 @@ import { Typography, Button } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import ThemeApi from '../utils/ThemeApi';
-import { findOpponent } from '../utils/database';
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
@@ -76,11 +75,10 @@ const useStyles = makeStyles((theme) => ({
 export default function OurGames() {
   const classes = useStyles();
   const history = useHistory();
-  const { authorized, user } = useContext(ThemeApi);
+  const { authorized } = useContext(ThemeApi);
   const handlePlay = async (game) => {
     console.log(authorized);
     if (authorized) {
-      // await findOpponent(user.uid, history);
       history.push(`/${game}/find`);
     } else {
       history.push('/auth');
@@ -95,7 +93,9 @@ export default function OurGames() {
           <div
             className={classes.games}
             style={{
-              backgroundImage: `url(${process.env.PUBLIC_URL + '/images/memory.jpg'})`,
+              backgroundImage: `url(${
+                process.env.PUBLIC_URL + '/images/memory.jpg'
+              })`,
               backgroundSize: 'cover',
             }}
           ></div>
@@ -106,11 +106,16 @@ export default function OurGames() {
           <div
             className={classes.games}
             style={{
-              backgroundImage: `url(${process.env.PUBLIC_URL + '/images/tictactoe.png'})`,
+              backgroundImage: `url(${
+                process.env.PUBLIC_URL + '/images/tictactoe.png'
+              })`,
               backgroundSize: 'cover',
             }}
           ></div>
-          <Button className={classes.btnPlay} onClick={() => handlePlay('tictactoe')}>
+          <Button
+            className={classes.btnPlay}
+            onClick={() => handlePlay('tictactoe')}
+          >
             Play
           </Button>
         </div>

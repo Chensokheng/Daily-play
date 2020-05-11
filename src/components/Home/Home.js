@@ -1,5 +1,4 @@
 import React from 'react';
-import { auth } from '../../utils/firebase';
 import Navigation from '../Navigation';
 import { makeStyles } from '@material-ui/core/styles';
 import OurGames from '../OurGames';
